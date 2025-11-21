@@ -274,7 +274,7 @@ namespace CarDealer.Desktop
                 }
 
                 // Create Car object from form data
-                var car = new car.Car
+                var car = new Car.Cars
                 {
                     Brand = cboMake.Text,
                     Model = txtModel.Text,

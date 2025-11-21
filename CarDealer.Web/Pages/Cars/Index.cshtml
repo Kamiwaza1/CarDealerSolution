@@ -1,0 +1,59 @@
+﻿@page
+@model CarDealer.Web.Pages.Cars.IndexModel
+<h1>Cars</h1>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Brand</th>
+			<th>Model</th>
+			<th>Price</th>
+			<th>Currency</th>
+			<th>Year</th>
+			<th>Description</th>
+			<th>Vin</th>
+			<th>Mileage</th>
+			<th>Color</th>
+			<th>FuelType</th>
+			<th>Transmission</th>
+			<th>EngineSizeCc</th>
+			<th>PowerHp</th>
+			<th>Doors</th>
+			<th>Seats</th>
+			<th>FirstRegistrationDate</th>
+			<th>PurchaseDate</th>
+				
+		</tr>
+	</thead>
+	<tbody>
+	@foreach (var car in Model.Cars)
+	{
+		<tr>
+			<td>@car.Brand</td>
+			<td>@car.Model</td>
+			<td>@car.Year</td>
+			<td>@car.Price</td>
+			<td>@car.Currency</td>
+			<td>@car.Description</td>
+			<td>@car.Vin</td>
+			<td>@car.Mileage</td>
+				<td>@car.Color</td>
+				<td>@car.FuelType</td>
+				<td>@car.Transmission</td>
+				<td>@car.EngineSizeCc</td>
+				<td>@car.PowerHp</td>
+				<td>@car.Doors</td>
+				<td>@car.Seats</td>
+				<td>@(car.FirstRegistration.HasValue ? car.FirstRegistration.Value.ToShortDateString() : "")</td>
+				<td>@(car.PurchaseDate.HasValue ? car.PurchaseDate.Value.ToShortDateString() : "")</td>
+				
+			<td>
+				<a asp-page="./Details"
+	   asp-route-id="@car.CarId">Details</a>
+			</td>
+		</tr>
+	}
+	</tbody>
+	
+</table>
+@{
+}

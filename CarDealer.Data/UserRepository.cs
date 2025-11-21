@@ -6,7 +6,7 @@ using Model;
 
 namespace CarDealer.Data
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly string cs = ConfigurationManager.ConnectionStrings["CarDealerDb"].ConnectionString;
 

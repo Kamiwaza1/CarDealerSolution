@@ -3,7 +3,7 @@ using CarDealer.Data;
 
 namespace CarDealer.Core.Services
 {
-    public class CarService
+    public class CarService : ICarService
     {
         private readonly CarDealerRepository _carRepository;
 
@@ -13,13 +13,13 @@ namespace CarDealer.Core.Services
         }
 
         
-        public List<car.Car> GetAllCars()
+        public List<Car.Cars> GetAllCars()
         {
             return _carRepository.GetAllCars();
         }
 
         
-        public car.Car? GetCarById(int carId)
+        public Car.Cars? GetCarById(int carId)
         {
             if (carId <= 0)
                 return null;
@@ -28,7 +28,7 @@ namespace CarDealer.Core.Services
         }
 
     
-        public int AddCar(car.Car car)
+        public int AddCar(Car.Cars car)
         {
             ValidateCar(car);
 
@@ -36,7 +36,7 @@ namespace CarDealer.Core.Services
         }
 
        
-        public bool UpdateCar(car.Car car)
+        public bool UpdateCar(Car.Cars car)
         {
             ValidateCar(car);
 
@@ -53,16 +53,19 @@ namespace CarDealer.Core.Services
         }
 
       
-        public List<car.Car> SearchCars(string searchTerm)
+        public List<Car.Cars> SearchCars(string searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm))
                 return GetAllCars();
 
             return _carRepository.SearchCars(searchTerm);
         }
+        public async Task<List<Car>> GetAllCarsAsync()
+        {
+            return await _carRepository.GetAllCarsAsync();
+        }
 
-        
-        public List<car.Car> GetCarsByYearRange(int minYear, int maxYear)
+        public List<Car.Cars> GetCarsByYearRange(int minYear, int maxYear)
         {
             return GetAllCars()
                 .Where(c => c.Year >= minYear && c.Year <= maxYear)
@@ -70,7 +73,7 @@ namespace CarDealer.Core.Services
         }
 
         
-        public List<car.Car> GetCarsByPriceRange(decimal minPrice, decimal maxPrice)
+        public List<Car.Cars> GetCarsByPriceRange(decimal minPrice, decimal maxPrice)
         {
             return GetAllCars()
                 .Where(c => c.Price >= minPrice && c.Price <= maxPrice)
@@ -78,7 +81,7 @@ namespace CarDealer.Core.Services
         }
 
       
-        private void ValidateCar(car.Car car)
+        private void ValidateCar(Car.Cars car)
         {
             if (car == null)
                 throw new ArgumentNullException(nameof(car));
@@ -94,6 +97,16 @@ namespace CarDealer.Core.Services
 
             if (car.Year < 1900 || car.Year > DateTime.Now.Year + 1)
                 throw new ArgumentException($"Year must be between 1900 and {DateTime.Now.Year + 1}");
+        }
+
+        public Task<List<Car>> GetAllCar()
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Car> ICarService.GetAllCars()
+        {
+            throw new NotImplementedException();
         }
     }
 }

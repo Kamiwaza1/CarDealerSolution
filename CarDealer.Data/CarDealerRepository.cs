@@ -9,14 +9,14 @@ using Model;
 
 namespace CarDealer.Data
 {
-    public class CarDealerRepository
+    public class CarDealerRepository : ICarDealerRepository
     {
       private readonly string cs = ConfigurationManager.ConnectionStrings["CarDealerDb"].ConnectionString;
 
         // Get all cars
-    public List<car.Car> GetAllCars()
+    public List<Car.Cars> GetAllCars()
      {
-         List<car.Car> cars = new List<car.Car>();
+         List<Car.Cars> cars = new List<Car.Cars>();
 
          using (SqlConnection conn = new SqlConnection(cs))
    {
@@ -41,7 +41,7 @@ namespace CarDealer.Data
         }
 
      // Get car by ID
-        public car.Car? GetCarById(int carId)
+        public Car.Cars? GetCarById(int carId)
   {
             using (SqlConnection conn = new SqlConnection(cs))
    {
@@ -68,7 +68,7 @@ namespace CarDealer.Data
         }
 
         // Add new car
-        public int AddCar(car.Car car)
+        public int AddCar(Car.Cars car)
      {
         using (SqlConnection conn = new SqlConnection(cs))
     {
@@ -90,7 +90,7 @@ namespace CarDealer.Data
         }
 
         // Update existing car
- public bool UpdateCar(car.Car car)
+ public bool UpdateCar(Car.Cars car)
   {
             using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -131,9 +131,9 @@ FuelType = @FuelType, Transmission = @Transmission,
         }
 
         // Search cars
-   public List<car.Car> SearchCars(string searchTerm)
+   public List<Car.Cars> SearchCars(string searchTerm)
   {
-         List<car.Car> cars = new List<car.Car>();
+         List<Car.Cars> cars = new List<Car.Cars>();
 
      using (SqlConnection conn = new SqlConnection(cs))
             {
@@ -163,9 +163,9 @@ FuelType = @FuelType, Transmission = @Transmission,
         }
 
      // Helper method to map SqlDataReader to Car object
-        private car.Car MapReaderToCar(SqlDataReader reader)
+        private Car.Cars MapReaderToCar(SqlDataReader reader)
       {
-            return new car.Car
+            return new Car.Cars
    {
                 CarId = reader.GetInt32(reader.GetOrdinal("CarId")),
        Brand = reader.GetString(reader.GetOrdinal("Brand")),
@@ -189,7 +189,7 @@ FuelType = @FuelType, Transmission = @Transmission,
       }
 
  // Helper method to add car parameters to SqlCommand
-        private void AddCarParameters(SqlCommand cmd, car.Car car)
+        private void AddCarParameters(SqlCommand cmd, Car.Cars car)
         {
         cmd.Parameters.AddWithValue("@Brand", car.Brand);
       cmd.Parameters.AddWithValue("@Model", car.Model);
@@ -209,5 +209,10 @@ FuelType = @FuelType, Transmission = @Transmission,
             cmd.Parameters.AddWithValue("@FirstRegistration", (object?)car.FirstRegistration ?? DBNull.Value);
     cmd.Parameters.AddWithValue("@PurchaseDate", (object?)car.PurchaseDate ?? DBNull.Value);
         }
- }
+
+        public async Task<List<Car>> GetAllCarsAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
